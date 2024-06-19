@@ -1,18 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const GenderCheckbox = () => {
+const GenderCheckbox = ({selectedGender,onSelect}) => {
+
   return (
     <div className='flex'>
         <div className='form-control'>
-            <label className='label gap-2 cursor-pointer'>
+            <label className={`label gap-2 cursor-pointer ${selectedGender==="male"?"selected":""}`}>
                 <span className='label-text'>Male</span>
-                <input type='checkbox' className='checkbox border-blue-900' />
+                <input type='checkbox' checked={selectedGender==="male"} 
+                onChange={()=>onSelect("male")}
+                className='checkbox border-blue-900' />
             </label>
         </div>
         <div className='form-control'>
-            <label className='label gap-2 cursor-pointer'>
+            <label className={`label gap-2 cursor-pointer ${selectedGender==="female"?"selected":""}`}>
                 <span className='label-text'>Female</span>
-                <input type='checkbox' className='checkbox border-blue-900' />
+                <input type='checkbox' 
+                checked={selectedGender==="female"}
+                onChange={()=>onSelect("female")}
+                className='checkbox border-blue-900' />
             </label>
         </div>
     </div>

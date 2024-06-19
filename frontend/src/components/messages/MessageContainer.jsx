@@ -1,23 +1,35 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Messages from './Messages'
 import MessageInput from './MessageInput'
 import { TiMessages } from 'react-icons/ti'
+import { IoCall } from "react-icons/io5";
+import { IoIosVideocam } from "react-icons/io";
+import useConversation  from '../../zustand/useConversation';
+import { useAuthContest } from '../../context/AuthContest';
 
 const MessageContainer = () => {
-    const noChatSelected=true;
+  const { selectedConversation, setSelectedConversation } = useConversation();
+
+	useEffect(() => {
+		// cleanup function (unmounts)
+		return () => setSelectedConversation(null);
+	}, [setSelectedConversation]);
 
   return (
     <div className='md:min-w-[450px] flex flex-col'>
-        {noChatSelected?(<NoChatSelected />):(<>
-            <div className=' flex items-center gap-2 bg-blue-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-20 px-4 py-2 mb-2'>
-                <span className='label-text'>To:</span>{" "}
-                <span className='text-gray-200 font-bold'>Syed </span>
+        {!selectedConversation?(<NoChatSelected />):(<>
+            <div className=' flex justify-between 
+            items-center gap-2 bg-blue-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-20 px-4 py-2 mb-2'>
+                <div className='flex space-x-3 items-center'><span className='label-text'>To:</span>{" "}
+                <span className='text-gray-200 font-bold'>{selectedConversation.fullName} </span>
                 <div className="chat-image avatar">
     <div className="w-10 rounded-full">
-      <img alt="Tailwind CSS chat bubble component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+      <img alt="Tailwind CSS chat bubble component" src={selectedConversation.profilePic} />
+    </div></div>
     </div>
-  </div>
-            </div>
+    <div className='flex gap-3'><IoCall className='text-blue-600'/>
+    <IoIosVideocam className='text-blue-600' /></div>  </div>
+            
 
             <Messages />
             <MessageInput />
